@@ -8,6 +8,7 @@ use winit::{
 };
 
 fn main() -> Result<(), Error> {
+    println!("Random start: {}", random::<i32>());
     let width = 400;
     let height = 400;
     let event_loop = EventLoop::new();
@@ -40,13 +41,17 @@ fn main() -> Result<(), Error> {
             {
                 *control_flow = ControlFlow::Exit;
             }
-            window.request_redraw();
         }
-        /*if let Event::WindowEvent { event: e, .. } = event {
+        if let Event::WindowEvent { event: e, .. } = event {
             if e == WindowEvent::CloseRequested {
                 *control_flow = ControlFlow::Exit
+            } else if let WindowEvent::Resized(new_size) = e {
+                println!("{:?}", new_size);
+                pixels.resize_surface(new_size.width, new_size.height)
             }
-        }*/
+        }
+
+        window.request_redraw();
     });
 }
 
