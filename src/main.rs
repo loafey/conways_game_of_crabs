@@ -33,7 +33,7 @@ fn main() -> Result<(), Error> {
 
     event_loop.run(move |event, _, control_flow| {
         if let Event::RedrawRequested(_) = event {
-            world.draw(pixels.get_frame());
+            world.draw(pixels.get_frame_mut());
             if pixels
                 .render()
                 .map_err(|e| panic!("pixels.render() failed: {}", e))
@@ -47,7 +47,9 @@ fn main() -> Result<(), Error> {
                 *control_flow = ControlFlow::Exit
             } else if let WindowEvent::Resized(new_size) = e {
                 println!("{:?}", new_size);
-                pixels.resize_surface(new_size.width, new_size.height)
+                pixels
+                    .resize_surface(new_size.width, new_size.height)
+                    .unwrap();
             }
         }
 
